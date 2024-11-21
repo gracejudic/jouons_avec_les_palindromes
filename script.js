@@ -44,6 +44,7 @@ function isValideDate (myDate) {
     if (isBetween(myDay,0,32) && isBetween(myMonth,0,13) && isBetween(myYear,999,10000)) {
         maxDaysInMonth(myDay,myMonth)
         console.log("isValideDate : full date is valid")
+        isPalindromeDate(myDate)
     } else {
         console.log("isValideDate : full date isn't valid")
     }
@@ -53,8 +54,8 @@ function isValideDate (myDate) {
     console.log(myYear)
 }  
 
-function isPalindrome(myDate) {
-    let myDate = "10/02/2001"
+function isPalindromeDate(myDate) {
+    //let myDate = "10/02/2001"
     let myReversedDate = myDate.split('/').join('')
     //console.log(myReversedDate, " split + join") //> ok, output : ddmmyyyy
 
@@ -75,4 +76,26 @@ function isPalindrome(myDate) {
 
 }
          
-isValideDate("17/03/1996")
+function isPalindrome(myWords) {
+  
+    let myReversedmyWords = myWords.split(' ').join('')
+    console.log(myReversedmyWords, " split + join")
+    myReversedmyWords = [...myReversedmyWords].reverse()
+    console.log(myReversedmyWords, " array + reverse")
+    myReversedmyWords = myReversedmyWords.join('')
+    console.log(myReversedmyWords, " join reversed")
+    mySplitedWords = myWords.split(' ').join('')
+    console.log(mySplitedWords, " original date without /")
+
+    if (myReversedmyWords === mySplitedWords) {
+    console.log("c'est un palindrome")
+      return true
+    } else {
+    console.log("c'est pas un palindrome")
+      return false
+    }
+
+}
+
+//isValideDate("22/02/2022")
+
