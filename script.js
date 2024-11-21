@@ -1,13 +1,3 @@
-/* prend en param une date en string et determine si valide (existe + format dd/mm/yyyy)
-à vérif : années min 1000 et année max 9999 // mois entre 1 et 12 // nombre de jours par 
-mois valide
-étape 1 : 
-> vérifier si date est reçue comme dd/mm/yyyy (comment ?)
-> transformer strings reçue en int
-> si (année < 1000 || année > 9999) || (mois < 0 || mois > 12)
-    retourner une erreur
-> si jour entre > 0 && =< nombre de jours max par mois
-    retourner date valide */
 const MAX_DAYS_PER_MONTH = {
     1:31,
     2:28,
@@ -45,19 +35,44 @@ function maxDaysInMonth(myDay,myMonth) {
       
 }
         
-function isValideDate (myDay,myMonth,myYear) {
-      
-    myDay = parseInt(myDay)
-    myMonth = parseInt(myMonth)
-    myYear = parseInt(myYear)
-      
+function isValideDate (myDate) {
+    let myDateCheck = myDate.split('/',3)
+    myDay = parseInt(myDateCheck[0])
+    myMonth = parseInt(myDateCheck[1])
+    myYear = parseInt(myDateCheck[2])
+  
     if (isBetween(myDay,0,32) && isBetween(myMonth,0,13) && isBetween(myYear,999,10000)) {
         maxDaysInMonth(myDay,myMonth)
         console.log("isValideDate : full date is valid")
     } else {
         console.log("isValideDate : full date isn't valid")
     }
-      
+    console.log(myDate)
+    console.log(myDay)
+    console.log(myMonth)
+    console.log(myYear)
 }  
+
+function isPalindrome(myDate) {
+    let myDate = "10/02/2001"
+    let myReversedDate = myDate.split('/').join('')
+    //console.log(myReversedDate, " split + join") //> ok, output : ddmmyyyy
+
+    myReversedDate = [...myReversedDate].reverse()
+    //console.log(myReversedDate, " array + reverse") > ok, output : ["6","9","9" etc ]
+
+    myReversedDate = myReversedDate.join('')
+    //console.log(myReversedDate, " join reversed") > ok, output : "yyyymmdd"
+
+    mySplitedDate = myDate.split('/').join('')
+    //console.log(mySplitedDate, " original date without /") > ok, output : "ddmmyyyy"
+
+    if (myReversedDate === mySplitedDate) {
+    console.log("c'est un palindrome")
+    } else {
+    console.log("c'est pas un palindrome")
+    }
+
+}
          
-isValideDate("20", "13", "2024")
+isValideDate("17/03/1996")
