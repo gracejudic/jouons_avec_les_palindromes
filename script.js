@@ -14,88 +14,133 @@ const MAX_DAYS_PER_MONTH = {
 }    
     
 function isBetween (myNum,minValue,maxValue) {
-      
     if (myNum > minValue && myNum < maxValue) {
-        console.log ("isBetween : valid")
         return true
     } else {
-        console.log("isBetween : invalid")
         return false
     }
-      
 }    
     
 function maxDaysInMonth(myDay,myMonth) {
-      
     if (myDay > (MAX_DAYS_PER_MONTH[myMonth])) {
-        console.log("maxDaysInMonth : invalid")
+        console.log("proposed day doesn't exist")
+        return false
     } else {
-        console.log("maxDaysInMonth : valid")
+        console.log("proposed day exists")
+        return true
     }
-      
 }
         
-function isValideDate (myDate) {
+function isValideDate(myDate) {
     let myDateCheck = myDate.split('/',3)
     myDay = parseInt(myDateCheck[0])
     myMonth = parseInt(myDateCheck[1])
     myYear = parseInt(myDateCheck[2])
   
     if (isBetween(myDay,0,32) && isBetween(myMonth,0,13) && isBetween(myYear,999,10000)) {
-        maxDaysInMonth(myDay,myMonth)
-        console.log("isValideDate : full date is valid")
-        isPalindromeDate(myDate)
+        if(maxDaysInMonth(myDay,myMonth)) {
+            return true
+        } else {
+            return false
+        }
     } else {
-        console.log("isValideDate : full date isn't valid")
+        console.log(`${myDate} : full date is not valid`)
+        return false
     }
-    console.log(myDate)
-    console.log(myDay)
-    console.log(myMonth)
-    console.log(myYear)
 }  
 
 function isPalindromeDate(myDate) {
-    //let myDate = "10/02/2001"
     let myReversedDate = myDate.split('/').join('')
-    //console.log(myReversedDate, " split + join") //> ok, output : ddmmyyyy
-
     myReversedDate = [...myReversedDate].reverse()
-    //console.log(myReversedDate, " array + reverse") > ok, output : ["6","9","9" etc ]
-
+    //console.log(myReversedDate, " array + reverse")
     myReversedDate = myReversedDate.join('')
-    //console.log(myReversedDate, " join reversed") > ok, output : "yyyymmdd"
-
-    mySplitedDate = myDate.split('/').join('')
-    //console.log(mySplitedDate, " original date without /") > ok, output : "ddmmyyyy"
-
-    if (myReversedDate === mySplitedDate) {
-    console.log("c'est un palindrome")
+    //console.log(myReversedDate, " join reversed")
+    myOriginalDateJoined = myDate.split('/').join('')
+    //console.log(myOriginalDateJoined, " original date without /")
+    if (myReversedDate === myOriginalDateJoined) {
+        console.log(`${myDate} : is a date palindrome`)
+        return true
     } else {
-    console.log("c'est pas un palindrome")
+        console.log(`${myDate} : is not a date palindrome`)
+        return false
     }
+}
 
+function removeAccents(mySentence) {
+    return mySentence.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
+function removeSpecialCharac(mySentence) {
+    switch(true) {
+        case mySentence.includes('!'):
+            mySentence = mySentence.replaceAll('!' , '');
+    
+        case mySentence.includes('?'):
+            mySentence = mySentence.replaceAll('?' , '');
+        
+        case mySentence.includes('.'):
+            mySentence = mySentence.replaceAll('.' , '');
+            
+        case mySentence.includes(','): 
+            mySentence = mySentence.replaceAll(',' , '');
+            
+        case mySentence.includes(';'):
+            mySentence = mySentence.replaceAll(';' , '');
+            
+        case mySentence.includes(':'):
+            mySentence = mySentence.replaceAll(':' , '');
+            
+        case mySentence.includes('-'):
+            mySentence = mySentence.replaceAll('-' , '');
+            
+        case mySentence.includes('_'):
+            mySentence = mySentence.replaceAll('_' , '');   
+            
+        case mySentence.includes('(' && ')'):
+            mySentence = mySentence.replaceAll(/[()]/g , '');    
+            break; 
+        }
+    return mySentence
 }
          
-function isPalindrome(myWords) {
-  
-    let myReversedmyWords = myWords.split(' ').join('')
-    console.log(myReversedmyWords, " split + join")
-    myReversedmyWords = [...myReversedmyWords].reverse()
-    console.log(myReversedmyWords, " array + reverse")
-    myReversedmyWords = myReversedmyWords.join('')
-    console.log(myReversedmyWords, " join reversed")
-    mySplitedWords = myWords.split(' ').join('')
-    console.log(mySplitedWords, " original date without /")
+function isPalindromeWords(mySentence) {
+    mySentence = removeAccents(mySentence)
+    mySentence = removeSpecialCharac(mySentence)
+    
+    let myReversedSentence = mySentence.split(' ').join('').toLowerCase()
+    //console.log(myReversedSentence, " split + join + LowerCase")
+    myReversedSentence = [...myReversedSentence].reverse()
+    //console.log(myReversedSentence, " array + reverse")
+    myReversedSentence = myReversedSentence.join('')
+    //console.log(myReversedSentence, " join reversed")
+    let myOriginalSentenceJoined = mySentence.split(' ').join('').toLowerCase()
+    //console.log(myOriginalSentenceJoined, " original string without spaces")
 
-    if (myReversedmyWords === mySplitedWords) {
-    console.log("c'est un palindrome")
+    if (myReversedSentence === myOriginalSentenceJoined) {
+    console.log(`${mySentence} is a words palindrome`)
       return true
     } else {
-    console.log("c'est pas un palindrome")
+    console.log(`${mySentence} is not a words palindrome`)
       return false
     }
-
 }
 
-//isValideDate("22/02/2022")
+function isPalindrome(mySuggestion) {
+    if(isValideDate(mySuggestion)) {
+        isPalindromeDate(mySuggestion)
+    } else {
+        isPalindromeWords(mySuggestion)
+    }
+/*Problème : les dates non existantes passent dans la fonction PalindromeWords et les phrases/mots passent dans 
+datePalindromes donc le code marche mais les console.log() de check sont pas terribles*/      
+}
 
+isPalindrome("32/02/2024")
+isPalindrome("13/02/2031")
+isPalindrome("24/02/2042")
+isPalindrome("17/03/1996")
+
+isPalindrome("Oh who was it I saw, oh who?")
+isPalindrome("Ceci n'est pas un palindrome")
+isPalindrome("Eve saw diamond, erred, no maid was Eve.")
+isPalindrome("Lapp, Mac? No, sir, prison-camp pal.")
